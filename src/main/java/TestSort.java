@@ -12,8 +12,8 @@ import java.util.*;
 public class TestSort {
 
     public static void main(String[] args) {
-        int runCount=50;
-        int size=2000000;
+        int runCount=500;
+        int size=50000;
         long sum=0;
         long average=0;
         int[] times = new int[runCount];
@@ -29,10 +29,10 @@ public class TestSort {
         }
         //printArray(out);
         JFreeChart barChart = ChartFactory.createBarChart(
-                "Olympic gold medals in London",
+                "Merge Sort Times",
                 "",
-                "Gold medals",
-                createDataSet(times,1),
+                "Count",
+                createDataSet(times),
                 PlotOrientation.VERTICAL,
                 false, false, false);
         showChart(barChart);
@@ -52,13 +52,12 @@ public class TestSort {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-    static DefaultCategoryDataset createDataSet(int[] times,double bucketSize){
+    static DefaultCategoryDataset createDataSet(int[] times){
         Map<Double,Double> timeCounter = new HashMap<>();
         times=MergeSort.mergeSort(times);
         for(int num :times){
-            Double bucket = bucketSize*(Math.floor(Math.abs(num/bucketSize)));
-            double cur = timeCounter.getOrDefault(bucket,0.0)+1;
-            timeCounter.put(bucket,cur);
+            double cur = timeCounter.getOrDefault(num,0.0)+1;
+            timeCounter.put((double)num,cur);
         }
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for(Double key:timeCounter.keySet()){
